@@ -1,0 +1,30 @@
+# IDE
+.idea/
+.vscode/
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Maven build directory
+target/
+
+# Gradle build directory
+build/
+
+# Application properties
+application.properties
+
+# Eclipse project files
+.project
+.classpath
+
+# IntelliJ project files
+*.iml
+*.ipr
+*.iws
+
+# Spring Boot DevTools
+.restart
