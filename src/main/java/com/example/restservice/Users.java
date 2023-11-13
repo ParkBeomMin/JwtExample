@@ -9,6 +9,8 @@ import java.util.stream.Collectors;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,6 +41,15 @@ public class Users implements UserDetails{
 
     @Column(length = 300, nullable = false)
     private String pwd;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberRole memberRole;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MemberProvider provider;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default

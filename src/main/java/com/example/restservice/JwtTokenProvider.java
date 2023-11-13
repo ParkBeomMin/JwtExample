@@ -62,6 +62,40 @@ public class JwtTokenProvider {
             .compact();
     } 
 
+    public static final String KEY_ROLES = "roles";
+    private static String SECRET_KEY = "secretKeyForJsonWebTokenTutorial";
+    public static final long EXPIRE_TIME = 1000 * 60 * 5;
+    public static final long REFRESH_EXPIRE_TIME = 1000 * 60 * 15;
+    public JwtDto createToken_(String userEmail, String role) {
+        String encryptedEmail = Aes256Util.encrypt(userEmail);
+
+        Claims claims = Jwts.claims().setSubject(encryptedEmail);
+        claims.put(KEY_ROLES, role);
+
+        Date now = new Date();
+
+        String accessToken = Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + EXPIRE_TIME))
+            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .compact();
+
+        claims.setSubject(encryptedEmail);
+
+        String refreshToken = Jwts.builder()
+            .setClaims(claims)
+            .setIssuedAt(now)
+            .setExpiration(new Date(now.getTime() + REFRESH_EXPIRE_TIME))
+            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .compact();
+
+        return JwtDto.builder()
+            .accessToken(accessToken)
+            .refreshToken(refreshToken)
+            .build();
+    }
+
     // JWT 토큰에서 인증 정보 조회
     // JWT 토큰에서 인증 정보를 조회하는 메서드는 아래와 같다.
     //
